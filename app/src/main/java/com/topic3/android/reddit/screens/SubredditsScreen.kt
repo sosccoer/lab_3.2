@@ -30,6 +30,8 @@ import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.topic3.android.reddit.R
 import com.topic3.android.reddit.models.SubredditModel
+import com.topic3.android.reddit.components.BackgroundText
+
 
 val subreddits = listOf(
     SubredditModel(
@@ -78,7 +80,52 @@ fun Subreddit(subredditModel: SubredditModel, modifier: Modifier = Modifier) {
 
 @Composable
 fun SubredditBody(subredditModel: SubredditModel, modifier: Modifier = Modifier) {
-    //TODO add your code here
+    ConstraintLayout (
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colors.surface)
+    ){
+        val (backgroundImage, icon, name,members,description) = createRefs()
+
+        SubredditImage(
+            modifier = modifier.constrainAs(backgroundImage){
+                centerHorizontallyTo(parent)
+                top.linkTo(parent.top)
+            }
+        )
+
+        SubredditIcon(modifier = modifier
+            .constrainAs(icon) {
+                top.linkTo(backgroundImage.bottom)
+                bottom.linkTo(backgroundImage.bottom)
+                centerHorizontallyTo(parent)
+            }
+            .zIndex(1f)
+        )
+
+        SubredditName(
+            nameStringRes = subredditModel.nameStringRes,
+            modifier = modifier.constrainAs(name){
+                top.linkTo(icon.bottom)
+                centerHorizontallyTo(parent)
+            }
+        )
+
+        SubredditMembers(
+            membersStringRes = subredditModel.membersStringRes,
+            modifier = modifier.constrainAs(members){
+                top.linkTo(name.bottom)
+                centerHorizontallyTo(parent)
+            }
+        )
+        SubredditDescription(
+            descriptionStringRes = subredditModel.descriptionStringRes,
+            modifier= modifier.constrainAs(description){
+                top.linkTo(members.bottom)
+                centerHorizontallyTo(parent)
+            }
+        )
+    }
 }
 
 @Composable
