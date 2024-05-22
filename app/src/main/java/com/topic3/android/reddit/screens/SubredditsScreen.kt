@@ -220,7 +220,14 @@ fun Community(
 }
 @Composable
 fun Communities(modifier: Modifier = Modifier) {
-    //TODO add your code here
+    mainCommunities.forEach {
+        Community(text = stringResource(it))
+    }
+    Spacer(modifier = modifier.height(4.dp))
+    BackgroundText(stringResource(R.string.communities))
+    communities.forEach {
+        Community(text = stringResource(it))
+    }
 }
 
 @Preview
